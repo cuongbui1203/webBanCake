@@ -12,19 +12,24 @@ class Controller extends BaseController
     use ValidatesRequests;
 
     /**
-     * success response method.
+     * send success response
      *
+     * @param string $message
+     * @param array $result
+     * @param integer $httpCode
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendResponse($result, $message, $httpCode = 200)
+    public function sendResponse($message, $result = [], $httpCode = 200)
     {
-        $response = [
+        $response = count($result) != 0 ? [
             'success' => true,
             'size'    => count($result),
             'data'    => $result,
             'message' => $message,
+        ] : [
+            'success' => true,
+            'message' => $message,
         ];
-
 
         return response()->json($response, $httpCode);
     }
@@ -33,6 +38,9 @@ class Controller extends BaseController
     /**
      * return error response.
      *
+     * @param string $error
+     * @param array|\Illuminate\Support\MessageBag $errorMessages
+     * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
     public function sendError($error, $errorMessages = [], $code = 404)

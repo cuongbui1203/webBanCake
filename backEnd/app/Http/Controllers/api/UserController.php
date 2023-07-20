@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -21,14 +22,14 @@ class UserController extends Controller
      * Register new account
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => "required|string|min:6",
-            'name' => 'required|string'
+        'email' => 'required|email',
+        'password' => "required|string|min:6",
+        'name' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -39,15 +40,15 @@ class UserController extends Controller
             ['password' => bcrypt($request->password)]
         ));
         return response()->json([
-            'message' => 'register new user success',
-            'user' => $user
+        'message' => 'register new user success',
+        'user' => $user
         ], 200);
     }
 
     /**
      * Get user info
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function me()
     {
@@ -57,7 +58,7 @@ class UserController extends Controller
      * change password for user
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function changePassword(Request $request)
     {
@@ -70,12 +71,12 @@ class UserController extends Controller
         }
         $userId = auth()->user()->id;
         $user = User::where('id', $userId)->update([
-            'password' => bcrypt($request->new_password)
+        'password' => bcrypt($request->new_password)
         ]);
         return response()->json([
-            'success' => true,
-            'message' => 'change Password Success',
-            'user' => $user
+        'success' => true,
+        'message' => 'change Password Success',
+        'user' => $user
         ], 201);
     }
 
@@ -83,7 +84,7 @@ class UserController extends Controller
      * user login
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
@@ -100,29 +101,58 @@ class UserController extends Controller
     /**
      * user logout
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function logout()
     {
         auth()->logout();
         return response()->json([
-            'success' => true,
-            'message' => 'Logout success'
+        'success' => true,
+        'message' => 'Logout success'
         ]);
     }
 
     /**
      * refresh user token
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
     }
 
+    /**
+     * add Item to Cart
+     *
+     * @param Request $request
+     * @return void|\Illuminate\Http\JsonResponse
+     */
+    public function addItemToCart(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+        'itemId' => "required",
+        "quantity" => "required|numeric|min:0",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validator Error', $validator->errors(), 422);
+        }
+        $cart = json_decode(auth()->user()->cart);
+        if ($cart[$request->id]) {
+            $cart[$request->id] += $request->quantity;
+        } else {
+            $cart[$request->id] = $request->quantity;
+        }
+        return response()->json($cart);
+    }
 
-    protected function respondWithToken($token)
+    /**
+     * Send token back to user
+     *
+     * @param string $token
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken(string $token)
     {
         return response()->json([
             'access_token' => $token,
@@ -131,5 +161,4 @@ class UserController extends Controller
             'user' => auth()->user()
         ]);
     }
-    
 }
