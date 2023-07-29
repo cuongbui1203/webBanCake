@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Cake;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -42,9 +43,9 @@ class CartController extends Controller
     public function updateCart(Request $request, int $userId)
     {
         $validator = Validator::make($request->all(), [
-            "idProduct" => "required",
-            'quantity' => 'required|numeric|min:1',
-            'type' => 'required|in:0,1|numeric'
+        "idProduct" => "required",
+        'quantity' => 'required|numeric|min:1',
+        'type' => 'required|in:0,1|numeric'
         ]);
         if ($validator->fails()) {
             return $this->sendError("Validator Error", $validator->errors(), 422);
@@ -91,6 +92,16 @@ class CartController extends Controller
         } catch (Exception $e) {
             return $this->sendError('Error', [$e]);
         }
+    }
+
+    public function cartCheckout(int $userId)
+    {
+        $cart = $this->base64ToArr(User::where("id", "=", $userId)->select("cart")->get()[0]->cart);
+        foreach ($cart as $id => $quantity) {
+            //
+            $stock = Cake::where('id', '=', $id)->select('quantity')->get()[0];
+        }
+        User::where('id', '=', $userId)->update(['cart' => $this->arrToBase64($cart)]);
     }
 
     /**

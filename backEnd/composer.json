@@ -1,7 +1,7 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "day la du an Back End cho trang web ban banh ca nhan cua toi.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\cake;
+use App\Models\Cake;
 use Carbon\Exceptions\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,15 +21,15 @@ class CakeController extends Controller
         if ($_GET) {
             $id = $_GET['id'];
             try {
-                $res = DB::table('cake')->where('id', '=', $id)->get();
+                $res = DB::table('Cake')->where('id', '=', $id)->get();
                 return $this->sendResponse(`Get product id ` . $id . ` success`, $res);
             } catch (Exception $e) {
                 return $this->sendError('can`t get product id ' . $id, [$e]);
             }
         }
         try {
-            $res = DB::table('cake')->get();
-            return $this->sendResponse('Get all cake success', $res);
+            $res = DB::table('Cake')->get();
+            return $this->sendResponse('Get all Cake success', $res);
         } catch (Exception $e) {
             return $this->sendError('can`t get all product', [$e]);
         }
@@ -52,19 +52,19 @@ class CakeController extends Controller
             return $this->sendError('validator Error', $validator->errors());
         }
 
-        // $cake = cake::create([
+        // $Cake = Cake::create([
         //     'name' => $request->name,
         //     'price' => $request->price,
         //     // ''
         // ]);
 
-        $cake = new cake();
-        $cake->name = $request->name;
-        $cake->price = $request->price;
-        $cake->detail = $request->detail ? $request->detail : "";
-        $cake->quantity = $request->quantity;
-        $cake->save();
-        return $this->sendResponse('create product success', [$cake]);
+        $Cake = new Cake();
+        $Cake->name = $request->name;
+        $Cake->price = $request->price;
+        $Cake->detail = $request->detail ? $request->detail : "";
+        $Cake->quantity = $request->quantity;
+        $Cake->save();
+        return $this->sendResponse('create product success', [$Cake]);
     }
 
     /**
@@ -83,8 +83,8 @@ class CakeController extends Controller
         if ($validator->fails()) {
             return $this->sendError('Validator Error', $validator->errors());
         }
-        if (DB::table('cake')->where('id', $id)->exists()) {
-            cake::where('id', '=', $id)->update([$request->key => $request->value]);
+        if (DB::table('Cake')->where('id', $id)->exists()) {
+            Cake::where('id', '=', $id)->update([$request->key => $request->value]);
             return $this->sendResponse('update product has id = ' . $id . ' success');
         }
         return $this->sendError('not fount product has id = ' . $id);
@@ -93,11 +93,11 @@ class CakeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, int $cakeId)
+    public function destroy(Request $request, int $CakeId)
     {
         try {
-            cake::where('id', $cakeId)->delete();
-            return $this->sendResponse("delete product has id = " . $cakeId . " success");
+            Cake::where('id', $CakeId)->delete();
+            return $this->sendResponse("delete product has id = " . $CakeId . " success");
         } catch (Exception $e) {
             return $this->sendError('err', [$e]);
         }

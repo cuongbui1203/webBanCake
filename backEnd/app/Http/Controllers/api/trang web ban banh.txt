@@ -1,0 +1,33 @@
+trang web ban banh
+
+banh
+    ten
+    anh
+    gia
+    gioi thieu
+
+user
+    quyen
+    ten
+    gt
+
+
+
+
+
+cart = [
+    idItem:quantity,
+    1:10,
+    10:11
+]
+
+
+
+
+
+đăng nhập
+đăng ký
+xem thêm xoá sửa sp
+giỏ hàng
+mua hàng
+thanh toán

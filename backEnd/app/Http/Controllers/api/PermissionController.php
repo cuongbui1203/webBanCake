@@ -10,6 +10,6 @@ class PermissionController extends Controller
 {
     public function createPermission(Request $request)
     {
-        Permission::create(['name' => 'addmin']);
+        Permission::create(['name' => 'admin']);
     }
 }

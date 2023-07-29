@@ -29,8 +29,8 @@ Route::group([
 
 Route::get('/product', [CakeController::class,'index'])->name('get all product');
 Route::post('/product', [CakeController::class,'store']);
-Route::post('/product/{id}/update', [CakeController::class,'update']);
-Route::delete('product/{cakeId}/delete', [CakeController::class,'destroy']);
+Route::patch('/product/{id}/update', [CakeController::class,'update']);
+Route::delete('product/{CakeId}/delete', [CakeController::class,'destroy']);
 
 Route::post('/addItem', [UserController::class,'addItemToCart']);
 
