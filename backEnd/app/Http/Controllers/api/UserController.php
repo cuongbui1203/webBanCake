@@ -89,11 +89,14 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-        'email' => 'required|email',
-        'password' => 'required|string|min:6'
+            'email'     => 'required|email',
+            'password'  => 'required|string|min:6'
         ]);
-        if (! $token = auth()->attempt($validator->validated())) {
+        if ($validator->fails()) {
             return $this->sendError('Validator Error', $validator->errors(), 422);
+        }
+        if (! $token = auth()->attempt($validator->validated())) {
+            return $this->sendError('login fail');
         }
         return $this->respondWithToken($token);
     }

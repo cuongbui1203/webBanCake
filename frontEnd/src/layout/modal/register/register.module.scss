@@ -1,0 +1,134 @@
+$space-between: 20px;
+
+.form {
+    height: 500px;
+    margin: 50px auto;
+    padding: 45px 65px;
+    &__login {
+        width: 100%;
+    }
+    &__box {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: #fff;
+        border-radius: 40px;
+    }
+    &__left {
+        width: 50%;
+    }
+    &__padding {
+        width: 210px;
+        height: 210px;
+        background: #f2f2f2;
+        border-radius: 50%;
+        margin: 0 auto;
+        line-height: 210px;
+        position: relative;
+    }
+    &__image {
+        max-width: 100%;
+        width: 60%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &__right {
+        line-height: 26px;
+        width: 50%;
+    }
+    &__padding_right {
+        padding: 0 25px;
+    }
+    &__title {
+        font-size: 18px;
+        font-weight: bold;
+
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    &__input {
+        width: 100%;
+        margin-bottom: $space-between;
+        height: 35px;
+        border-radius: 20px;
+        border: none;
+        background: #f2f2f2;
+        padding: 10px;
+        font-size: 14px;
+        position: relative;
+        input {
+            background: #f2f2f2;
+        }
+    }
+
+    &__submit_btn {
+        width: 100%;
+        height: 40px;
+        display: block;
+        background: rgb(10, 104, 255);
+        cursor: pointer;
+        &:hover {
+            background: var(--header-btn-bgc-hover);
+        }
+    }
+
+    &__email {
+        position: relative;
+        display: block;
+    }
+
+    &__link {
+        color: rgb(10, 104, 255);
+        position: relative;
+        &:hover {
+            color: #ff3f70;
+        }
+    }
+
+    &__forgot {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    &__dob_gen_container {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__date_picker {
+        width: 47%;
+    }
+    &__gender_choses {
+        width: 47%;
+        position: relative;
+        margin-bottom: $space-between;
+        background-color: #f2f2f2;
+        border-radius: 20px;
+        border: none;
+        &_btn {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+.input {
+    &__container {
+        position: relative;
+    }
+    &__error {
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        font-size: 12px;
+        color: red !important;
+    }
+    &__email {
+        bottom: -20px;
+    }
+}

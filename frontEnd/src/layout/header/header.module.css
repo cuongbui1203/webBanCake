@@ -12,7 +12,9 @@
 
 .header_icon {
   width: 57px;
+  min-width: 57px;
   height: var(--header-item-heigh);
+  min-height: var(--header-item-heigh);
   margin-left: 1.2rem;
 }
 .header_icon > img {
@@ -47,6 +49,7 @@
   height: 2rem;
   border: none;
   font-size: medium;
+  background-color: transparent;
 }
 
 .search__input:focus-visible {

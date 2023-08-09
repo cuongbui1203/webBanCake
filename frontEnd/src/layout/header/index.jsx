@@ -1,21 +1,57 @@
-import { useState } from "react";
 import styles from "./header.module.css";
-import clsx from "clsx";
-import { Modal, Badge, Avatar } from "antd";
 import LoginModal from "../modal/login";
-export default function HeaderComponent() {
-  const [modalOpen, setModalOpen] = useState(false);
+import RegisterModal from "../modal/register";
+import ChangePasswordComponent from "../modal/changePass";
+import MiniCartComponent from "../../component/cart/mini";
 
-  const handleModelOpen = (e) => {
-    if (e.target.className === styles.header__account) {
-      setModalOpen(true);
-      console.log("open login form");
-      // console.log(e.target.className === styles.header__account);
-    }
-  };
+import { useState } from "react";
+import clsx from "clsx";
+import { Modal, Badge, Popover, Button } from "antd";
+import { useNavigate } from "react-router-dom";
+
+export default function HeaderComponent() {
+  const [modalContent, setModalContent] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const loginStatus = JSON.parse(localStorage.getItem("login"));
+  const content = (
+    <div>
+      <MiniCartComponent />
+      <div>
+        <Button>chi tiet</Button>
+      </div>
+    </div>
+  );
 
   const handleModeClose = () => {
     setModalOpen(false);
+  };
+  const handleHasAcc = () => {
+    setModalContent(<LoginModal handleClose={handleModeClose} />);
+  };
+  const handleModelOpen = (e) => {
+    if (e.target.className === styles.header__account) {
+      setModalContent(<LoginModal handleClose={handleModeClose} />);
+      setModalOpen(true);
+    }
+    if (e.target.innerText === "Create your account") {
+      setModalContent(
+        <RegisterModal
+          handleClose={handleModeClose}
+          handleHasAcc={handleHasAcc}
+        />
+      );
+      console.log("create account");
+    }
+    if (e.target.innerText === "Forgot Password") {
+      setModalContent(
+        <ChangePasswordComponent
+          handleClose={handleModeClose}
+          handleBack={handleHasAcc}
+        />
+      );
+      console.log("forgot password");
+    }
   };
 
   return (
@@ -53,18 +89,31 @@ export default function HeaderComponent() {
                 src="https://salt.tikicdn.com/ts/upload/07/d5/94/d7b6a3bd7d57d37ef6e437aa0de4821b.png"
                 alt="account icon"
               />
-              tài khoản
-              <Modal
-                // title="Login"
-                open={modalOpen}
-                onOk={handleModeClose}
-                onCancel={handleModeClose}
-                width={720}
-                footer={[]}
-                centered
-              >
-                <LoginModal handleClose={handleModeClose} />
-              </Modal>
+              {loginStatus != 1 ? (
+                <>
+                  Login
+                  <Modal
+                    // title="Login"
+                    open={modalOpen}
+                    onOk={handleModeClose}
+                    onCancel={handleModeClose}
+                    width={720}
+                    footer={[]}
+                    centered
+                    zIndex={5}
+                  >
+                    {modalContent}
+                  </Modal>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  tai khoan
+                </button>
+              )}
             </div>
             <div className={styles.header__home}>
               <img
@@ -74,14 +123,16 @@ export default function HeaderComponent() {
               trang chủ
             </div>
             <div className={styles.header__cart}>
-              <Badge count={0} showZero>
-                {/* <Avatar shape="square" size="large" /> */}
-                <img
-                  src="	https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png"
-                  alt="cart Icon"
-                  className=""
-                />
-              </Badge>
+              <Popover content={content} trigger={"hover"}>
+                <Badge count={0} showZero>
+                  {/* <Avatar shape="square" size="large" /> */}
+                  <img
+                    src="	https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png"
+                    alt="cart Icon"
+                    className=""
+                  />
+                </Badge>
+              </Popover>
               {/* <span className={styles.count_item_in_cart}>0</span> */}
             </div>
           </div>

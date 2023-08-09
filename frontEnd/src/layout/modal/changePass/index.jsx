@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import styles from "./login.module.scss";
+import styles from "./changePass.module.scss";
 import { handleLoginAPI } from "../../../api/api";
 
 import clsx from "clsx";
@@ -7,21 +7,17 @@ import { useState } from "react";
 import { Input, Spin } from "antd";
 import FormData from "form-data";
 
-export default function LoginModal({
-  handleClose,
-  handleRegister,
-  handleChangePass,
-}) {
+export default function ChangePasswordComponent({ handleClose, handleBack }) {
   //   console.log(styles);
   // console.log(handleClose);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [newPass2, setNewPass2] = useState("");
   const handleSubmit = () => {
     setLoading(true);
     const data = new FormData();
-    data.append("email", email);
-    data.append("password", pass);
+
     console.log(data);
     console.log(handleLoginAPI(data));
     setLoading(false);
@@ -49,19 +45,26 @@ export default function LoginModal({
                   onSubmit={handleSubmit}
                   className={styles.form__login}
                 >
-                  <h1 className={styles.form__title}>Login</h1>
+                  <h1 className={styles.form__title}>Change Password</h1>
                   <Input
-                    type="Email"
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
+                    type="password"
+                    placeholder="current Password"
+                    onChange={(e) => setPass(e.target.value)}
+                    value={pass}
                     className={clsx(styles.form__email, styles.form__input)}
                   ></Input>
                   <Input
                     type="password"
-                    placeholder="********"
-                    onChange={(e) => setPass(e.target.value)}
-                    value={pass}
+                    placeholder="new Password"
+                    onChange={(e) => setNewPass(e.target.value)}
+                    value={newPass}
+                    className={clsx(styles.form__input, styles.from__password)}
+                  ></Input>
+                  <Input
+                    type="password"
+                    placeholder="conform new Password"
+                    onChange={(e) => setNewPass2(e.target.value)}
+                    value={newPass2}
                     className={clsx(styles.form__input, styles.from__password)}
                   ></Input>
                   <Input
@@ -73,19 +76,6 @@ export default function LoginModal({
                     )}
                   ></Input>
                 </form>
-                <div className={styles.form__forgot}>
-                  <div>
-                    <a className={styles.form__link} onClick={handleChangePass}>
-                      Forgot Password
-                    </a>
-                  </div>
-
-                  <div>
-                    <a className={styles.form__link} onClick={handleRegister}>
-                      Create your account
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

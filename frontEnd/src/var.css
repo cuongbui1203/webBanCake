@@ -9,4 +9,6 @@
   --header-btn-bgc-hover: rgba(10, 104, 255, 0.2);
   --header-line-color: rgb(235, 235, 240);
   --header-count-item-bgc: red;
+
+  --card-width: 20;
 }

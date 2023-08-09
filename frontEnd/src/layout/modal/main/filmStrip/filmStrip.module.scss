@@ -1,0 +1,51 @@
+.film_strip_container {
+    // width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    position: relative;
+    > label {
+        font-size: 1.2rem;
+        padding: 10px 0px;
+    }
+}
+.container {
+    overflow: auto;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    scroll-behavior: smooth;
+    // position: relative;
+}
+
+.card {
+    &__container {
+        display: inline-block;
+        position: relative;
+        width: 250px;
+        margin: 0px 10px;
+    }
+    &__btn {
+        position: absolute;
+        z-index: 2;
+        border-radius: 8px;
+        border: none;
+        width: 40px;
+        height: 40px;
+        // background-color: rgba(255, 255, 255, 0.2);
+        transform: translate(0, 0);
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        &_icon {
+            font-size: 20px;
+            color: black;
+        }
+        &_left {
+            left: 0px;
+        }
+        &_right {
+            right: 0px;
+        }
+    }
+}
