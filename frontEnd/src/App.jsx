@@ -3,19 +3,20 @@ import styles from "./App.module.scss";
 import FooterContainer from "./layout/footer";
 import HeaderComponent from "./layout/header";
 import HomeComponent from "./pages/home";
+import CategoryComponent from "./pages/category";
 function App() {
   return (
     <>
       <HeaderComponent />
       <div className={styles.container}>
         <Routes>
-          <Route path="/" element={<HomeComponent />} />
+          <Route path="/home" element={<HomeComponent />} />
           <Route
             path="/cart"
             element={
               <>
                 <p>cart</p>
-                <Link to={"/"}>home</Link>
+                <Link to="/home">home</Link>
               </>
             }
           />
@@ -28,6 +29,8 @@ function App() {
               </>
             }
           />
+          <Route path="/category?/:id" element={<CategoryComponent />} />
+          <Route path="*" element={<div>not fount</div>} />
         </Routes>
       </div>
       <FooterContainer />

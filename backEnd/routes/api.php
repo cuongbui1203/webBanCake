@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\api\CakeCategoryController;
 use App\Http\Controllers\api\CakeController;
 use App\Http\Controllers\api\CartController;
 use App\Http\Controllers\api\UserController;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,3 +39,5 @@ Route::post('/addItem', [UserController::class,'addItemToCart']);
 Route::get('user/{userId}/cart', [CartController::class,'getCart']);
 Route::post('user/{userId}/cart', [CartController::class,'updateCart']);
 Route::delete('users/{id}/cart', [CartController::class,'removeCart']);
+Route::get('category', [CakeCategoryController::class,'index']);
+Route::post('category', [CakeCategoryController::class,'store']);

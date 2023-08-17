@@ -15,7 +15,7 @@ export default function HeaderComponent() {
   const navigate = useNavigate();
   const loginStatus = JSON.parse(localStorage.getItem("login"));
   const content = (
-    <div>
+    <div className={styles.miniCartPopover_container}>
       <MiniCartComponent />
       <div>
         <Button>chi tiet</Button>
@@ -89,7 +89,7 @@ export default function HeaderComponent() {
                 src="https://salt.tikicdn.com/ts/upload/07/d5/94/d7b6a3bd7d57d37ef6e437aa0de4821b.png"
                 alt="account icon"
               />
-              {loginStatus != 1 ? (
+              {loginStatus !== 1 ? (
                 <>
                   Login
                   <Modal
@@ -106,13 +106,13 @@ export default function HeaderComponent() {
                   </Modal>
                 </>
               ) : (
-                <button
+                <div
                   onClick={() => {
-                    navigate("/");
+                    navigate("/user");
                   }}
                 >
                   tai khoan
-                </button>
+                </div>
               )}
             </div>
             <div className={styles.header__home}>
@@ -123,9 +123,8 @@ export default function HeaderComponent() {
               trang chủ
             </div>
             <div className={styles.header__cart}>
-              <Popover content={content} trigger={"hover"}>
+              <Popover content={content} trigger={"click"}>
                 <Badge count={0} showZero>
-                  {/* <Avatar shape="square" size="large" /> */}
                   <img
                     src="	https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png"
                     alt="cart Icon"
@@ -133,7 +132,6 @@ export default function HeaderComponent() {
                   />
                 </Badge>
               </Popover>
-              {/* <span className={styles.count_item_in_cart}>0</span> */}
             </div>
           </div>
         </header>

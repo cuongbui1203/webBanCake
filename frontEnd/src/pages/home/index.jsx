@@ -1,31 +1,45 @@
-import { Carousel, Card, Image } from "antd";
 import styles from "./home.module.scss";
+import styles2 from "../../App.module.scss";
 import { data } from "../../data";
 import FilmStripContainer from "../../layout/modal/main/filmStrip";
+import { Carousel } from "antd";
+import { useState } from "react";
 
 export default function HomeComponent() {
   const onChange = (currentSlide) => {
     console.log(currentSlide);
   };
+  // const [width, setWidth] = useState(width);
   return (
     <>
-      <div className={styles.container__banner}>
-        <Carousel
-          afterChange={onChange}
-          autoplay
-          dotPosition={"bottom"}
-          width={300}
-        >
-          {data.map((p) => {
-            return <Image alt="example" src={p.img} height={300} width={244} />;
-          })}
-        </Carousel>
+      <Carousel
+        afterChange={onChange}
+        autoplay
+        dotPosition={"bottom"}
+        width={300}
+        className={styles.container__banner}
+      >
+        {data.map((p) => {
+          return (
+            <img
+              className={styles.card__image}
+              alt="example"
+              src="https://ledmofan.com/wp-content/uploads/2023/03/hinh-nen-dep-cho-may-tinh-ledmofan-full-hd-2-1.jpg"
+              height={300}
+              width={244}
+              key={123}
+              onClick={(e) => {
+                console.log(e);
+              }}
+            />
+          );
+        })}
+      </Carousel>
+      <div className={styles.container}>
+        <FilmStripContainer items={data} width={1300} category={"category 1"} />
       </div>
       <div className={styles.container}>
-        <FilmStripContainer items={data} width={900} category={"category 1"} />
-      </div>
-      <div className={styles.container}>
-        <FilmStripContainer items={data} width={900} category={"category 2"} />
+        <FilmStripContainer items={data} width={1300} category={"category 2"} />
       </div>
       <div className={styles.container}>
         <FilmStripContainer items={data} width={900} category={"category 3"} />

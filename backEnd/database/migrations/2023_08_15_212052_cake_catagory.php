@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
-        Schema::create('Cake', function (Blueprint $table) {
+        Schema::create('CakeCategory', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('price');
-            $table->longText('detail')->default("");
-            $table->string('picture')->default("");
-            $table->integer('quantity')->default(0);
-            $table->integer('idCategory');
             $table->timestamps();
         });
     }
@@ -29,7 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
-        Schema::dropIfExists('Cake');
+        Schema::dropIfExists('CakeCategory');
     }
 };

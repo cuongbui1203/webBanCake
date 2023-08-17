@@ -6,7 +6,10 @@
 }
 
 .container__banner {
-    width: 900px;
+    width: 1300px;
     height: 300px;
-    background-color: red;
+}
+
+.card__image {
+    object-fit: cover;
 }

@@ -1,9 +1,9 @@
+/* eslint-disable no-control-regex */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import styles from "./register.module.scss";
-import { handleLoginAPI } from "../../../api/api";
 
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DatePicker, Input, Dropdown, Spin, Button, Space } from "antd";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import FormData from "form-data";
@@ -29,9 +29,29 @@ export default function RegisterModal({ handleClose, handleHasAcc }) {
   const validatorsWarn = {
     name: ["", "không được để trống"],
     dob: ["", "không được để trống"],
-    email: ["", "không được để trống"],
-    password: ["", "không được để trống"],
-    password2: ["", "không được để trống"],
+    email: ["", "không được để trống", "email không hợp lệ"],
+    password: [
+      "",
+      "không được để trống",
+      "tối thiểu 8 ký tự, chứa ít nhất 1 chữ cái và 1 chữ số",
+    ],
+    password2: ["", "không được để trống", "cần nhập trùng với password"],
+  };
+
+  const validate = () => {
+    const regexMail = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    );
+    const regexPass = new RegExp(
+      "^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+    );
+    setValidators({
+      name: name.length === 0 ? 1 : 0,
+      dob: dob.length === 0 ? 1 : 0,
+      email: email.length === 0 ? 1 : !regexMail.test(email) ? 2 : 0,
+      password: pass.length === 0 ? 1 : !regexPass.test(pass) ? 2 : 0,
+      password2: pass2.length === 0 ? 1 : pass2 === pass ? 0 : 2,
+    });
   };
 
   const items = [
@@ -62,12 +82,14 @@ export default function RegisterModal({ handleClose, handleHasAcc }) {
     data.append("password", pass);
     data.append("name", name);
     data.append("dob", dob);
-
     console.log(data);
     // console.log(handleLoginAPI(data));
     setLoading(false);
     handleClose();
   };
+
+  useEffect(() => validate());
+
   return (
     <>
       <Spin spinning={loading}>
@@ -129,7 +151,7 @@ export default function RegisterModal({ handleClose, handleHasAcc }) {
                       className={styles.form__gender_choses}
                     >
                       <Button className={styles.form__gender_choses_btn}>
-                        {gender == 1 ? "nam" : "nu"}
+                        {gender === 1 ? "nam" : "nu"}
                         <Space className={(styles.form__gender_choses_btn, {})}>
                           <DownOutlined />
                         </Space>
