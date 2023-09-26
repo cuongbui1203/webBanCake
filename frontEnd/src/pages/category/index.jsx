@@ -6,7 +6,8 @@ import { useParams, useSearchParams } from "react-router-dom";
 
 export default function CategoryComponent() {
   const { id } = useParams();
-  let [searchParams, setSearchParams] = useSearchParams();
+  const pageSize = 9;
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleGoToPage = (page) => {
     if (page !== 1) setSearchParams({ page: page });
@@ -22,7 +23,7 @@ export default function CategoryComponent() {
           items={data}
           pageNum={searchParams.get("page")}
           goToPage={handleGoToPage}
-          pageSize={9}
+          pageSize={pageSize}
         />
       </div>
     </div>

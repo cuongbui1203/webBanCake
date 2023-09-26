@@ -159,7 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        // Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -187,6 +187,8 @@ return [
         // 'Example' => App\Facades\Example::class,
         PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth::class,
         PHPOpenSourceSaver\JWTAuth\Facades\JWTFactory::class,
+        // 'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        // 'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory'::class,
 
     ])->toArray(),
 

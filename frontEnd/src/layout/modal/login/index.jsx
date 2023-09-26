@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import styles from "./login.module.scss";
-import { handleLoginAPI } from "../../../api/api";
+import { handleLoginAPI } from "../../../api/authApi";
 
 import clsx from "clsx";
 import { useState } from "react";

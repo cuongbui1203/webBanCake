@@ -1,7 +1,6 @@
 import style from "./pagi.module.scss";
 import { Card, Pagination } from "antd";
 import { useEffect, useState } from "react";
-
 export default function PaginationComponent({
   items,
   pageNum,
@@ -14,14 +13,12 @@ export default function PaginationComponent({
     const tmp = items.slice((start - 1) * size, start * size);
     const res = [];
     console.log(tmp);
-    tmp.forEach((element) => {
+    tmp.forEach((e) => {
       res.push(
-        <Card title={element.name} className={style.item}>
+        <Card title={e.name} className={style.item}>
           <Card.Meta
-            avatar={
-              <img src={element.img} alt="..." width={100} height={100} />
-            }
-            description={element.dsc}
+            avatar={<img src={e.img} alt="..." width={100} height={100} />}
+            description={e.dsc}
           />
         </Card>
       );
@@ -36,7 +33,7 @@ export default function PaginationComponent({
   useEffect(() => {
     setPageCur(renderItem(pageNum, pageSize));
     console.log(":::", pageNum);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum]);
   return (
     <div>
@@ -44,7 +41,7 @@ export default function PaginationComponent({
       <Pagination
         total={items.length}
         defaultPageSize={pageSize}
-        defaultCurrent={1}
+        defaultCurrent={pageNum}
         onChange={onChangePage}
       />
     </div>

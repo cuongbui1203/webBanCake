@@ -180,3 +180,16 @@
   align-items: center;
   background-color: var(--header-line-color);
 }
+
+.search__input:placeholder-shown + .removeTextIcon {
+  display: none;
+}
+
+.removeTextIcon {
+  margin-right: 5px;
+  color: #666464;
+}
+.removeTextIcon:hover {
+  color: #918d8d;
+  cursor: pointer;
+}

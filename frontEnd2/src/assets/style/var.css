@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap");
+* {
+  font-family: "Lora", serif;
+}
+:root {
+  --icon-background-color: red;
+  --header-item-heigh: 40px;
+  --header-border-radius: 8px;
+  --header-btn-bgc-hover: rgba(10, 104, 255, 0.2);
+  --header-line-color: rgb(235, 235, 240);
+  --header-count-item-bgc: red;
+
+  --card-width: 20;
+}

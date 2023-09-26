@@ -3,11 +3,12 @@
 import styles from "./register.module.scss";
 
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DatePicker, Input, Dropdown, Spin, Button, Space } from "antd";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import FormData from "form-data";
 import locale from "antd/es/date-picker/locale/vi_VN";
+// import { handleLoginAPI } from "../../../api/api";
 
 export default function RegisterModal({ handleClose, handleHasAcc }) {
   const [loading, setLoading] = useState(false);
@@ -19,11 +20,11 @@ export default function RegisterModal({ handleClose, handleHasAcc }) {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState(1);
   const [validators, setValidators] = useState({
-    name: 1,
-    dob: 1,
-    email: 1,
-    password: 1,
-    password2: 1,
+    name: 0,
+    dob: 0,
+    email: 0,
+    password: 0,
+    password2: 0,
   });
 
   const validatorsWarn = {
@@ -42,9 +43,8 @@ export default function RegisterModal({ handleClose, handleHasAcc }) {
     const regexMail = new RegExp(
       "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
     );
-    const regexPass = new RegExp(
-      "^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-    );
+    const regexPass = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+    let res = 0;
     setValidators({
       name: name.length === 0 ? 1 : 0,
       dob: dob.length === 0 ? 1 : 0,
@@ -52,6 +52,12 @@ export default function RegisterModal({ handleClose, handleHasAcc }) {
       password: pass.length === 0 ? 1 : !regexPass.test(pass) ? 2 : 0,
       password2: pass2.length === 0 ? 1 : pass2 === pass ? 0 : 2,
     });
+    res += validators.name;
+    res += validators.dob;
+    res += validators.email;
+    res += validators.password;
+    res += validators.password2;
+    return res === 0;
   };
 
   const items = [
@@ -76,6 +82,7 @@ export default function RegisterModal({ handleClose, handleHasAcc }) {
     onClick: handleMenuClick,
   };
   const handleSubmit = () => {
+    if (validate() !== 0) return;
     setLoading(true);
     const data = new FormData();
     data.append("email", email);
@@ -88,7 +95,7 @@ export default function RegisterModal({ handleClose, handleHasAcc }) {
     handleClose();
   };
 
-  useEffect(() => validate());
+  // useEffect(() => validate());
 
   return (
     <>
@@ -108,7 +115,7 @@ export default function RegisterModal({ handleClose, handleHasAcc }) {
             <div className={styles.form__right}>
               <div className={styles.form__padding_right}>
                 <form
-                  action="#"
+                  action=""
                   onSubmit={handleSubmit}
                   className={styles.form__login}
                 >

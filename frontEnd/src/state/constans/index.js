@@ -1,0 +1,5 @@
+const SET_USER_INFO = "SET-USER-INFO";
+
+const USER_LOGOUT = "USER-LOGOUT";
+
+export { SET_USER_INFO, USER_LOGOUT };

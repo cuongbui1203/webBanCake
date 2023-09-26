@@ -3,18 +3,22 @@ import LoginModal from "../modal/login";
 import RegisterModal from "../modal/register";
 import ChangePasswordComponent from "../modal/changePass";
 import MiniCartComponent from "../../component/cart/mini";
+import MiniAccComponent from "../../pages/acc/mini";
 
 import { useState } from "react";
 import clsx from "clsx";
 import { Modal, Badge, Popover, Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
+import { CloseCircleFilled } from "@ant-design/icons";
 
 export default function HeaderComponent() {
   const [modalContent, setModalContent] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const loginStatus = JSON.parse(localStorage.getItem("login"));
-  const content = (
+  const [searchValue, setSearchValue] = useState("");
+
+  const cartContent = (
     <div className={styles.miniCartPopover_container}>
       <MiniCartComponent />
       <div>
@@ -54,6 +58,19 @@ export default function HeaderComponent() {
     }
   };
 
+  const handleIconClick = () => {
+    navigate("/home");
+  };
+
+  const handleSearch = () => {
+    if (searchValue === "") return;
+    const data = { search: searchValue };
+    navigate({
+      pathname: "/search",
+      search: `?${createSearchParams(data)}`,
+    });
+  };
+
   return (
     <>
       <div className={styles.headers}>
@@ -61,7 +78,7 @@ export default function HeaderComponent() {
           <div className={styles.right__header_container}>
             <div
               className={clsx(styles.header_icon, styles.icon__container)}
-              onClick={() => alert("icon")}
+              onClick={handleIconClick}
             >
               <img
                 src="https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png"
@@ -79,8 +96,16 @@ export default function HeaderComponent() {
                 type="text"
                 placeholder="search"
                 className={styles.search__input}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
               ></input>
-              <button className={styles.search__btn}>tim kiem</button>
+              <CloseCircleFilled
+                className={styles.removeTextIcon}
+                onClick={() => setSearchValue("")}
+              />
+              <button className={styles.search__btn} onClick={handleSearch}>
+                tim kiem
+              </button>
             </div>
           </div>
           <div className={styles.left__header_container}>
@@ -91,6 +116,7 @@ export default function HeaderComponent() {
               />
               {loginStatus !== 1 ? (
                 <>
+                  {" "}
                   Login
                   <Modal
                     // title="Login"
@@ -106,16 +132,12 @@ export default function HeaderComponent() {
                   </Modal>
                 </>
               ) : (
-                <div
-                  onClick={() => {
-                    navigate("/user");
-                  }}
-                >
-                  tai khoan
-                </div>
+                <Popover content={<MiniAccComponent />} trigger={"hover"}>
+                  <div>tai khoan</div>
+                </Popover>
               )}
             </div>
-            <div className={styles.header__home}>
+            <div className={styles.header__home} onClick={handleIconClick}>
               <img
                 src="https://salt.tikicdn.com/ts/upload/32/56/db/d919a4fea46f498b5f4708986d82009d.png"
                 alt="home icon"
@@ -123,7 +145,7 @@ export default function HeaderComponent() {
               trang chủ
             </div>
             <div className={styles.header__cart}>
-              <Popover content={content} trigger={"click"}>
+              <Popover content={cartContent} trigger={"click"}>
                 <Badge count={0} showZero>
                   <img
                     src="	https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png"

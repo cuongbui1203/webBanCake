@@ -8,6 +8,14 @@
         font-size: 1.2rem;
         padding: 10px 0px;
     }
+    > div {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0px;
+        > label {
+            font-size: 30px;
+        }
+    }
 }
 .container {
     overflow: auto;

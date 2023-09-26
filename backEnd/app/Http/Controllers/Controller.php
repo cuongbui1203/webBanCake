@@ -19,13 +19,16 @@ class Controller extends BaseController
      * @param integer $httpCode
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendResponse($message, $result = [], $httpCode = 200)
+    public function sendResponse($message = "success", $result = [], $next = null, $previous = null, $httpCode = 200)
     {
         $response = count($result) != 0 ? [
             'success' => true,
+            'next' => $next,
+            'previous' => $previous,
             'size'    => count($result),
             'data'    => $result,
             'message' => $message,
+
         ] : [
             'success' => true,
             'message' => $message,
@@ -57,5 +60,19 @@ class Controller extends BaseController
 
 
         return response()->json($response, $code);
+    }
+
+    protected function createUrl($mixer = []): string|null
+    {
+        $host = isset($mixer['host']) ? $mixer['host'] : request()->getSchemeAndHttpHost();
+        $params = [];
+        foreach ($mixer as $key => $value) {
+            $params[] = $key . '=' . $value;
+        }
+        $param = implode("&", $params);
+        if (strlen($param)) {
+            return $host . "?" . http_build_query($mixer);
+        }
+        return null;
     }
 }

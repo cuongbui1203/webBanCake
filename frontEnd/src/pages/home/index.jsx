@@ -1,15 +1,27 @@
 import styles from "./home.module.scss";
-import styles2 from "../../App.module.scss";
 import { data } from "../../data";
-import FilmStripContainer from "../../layout/modal/main/filmStrip";
 import { Carousel } from "antd";
-import { useState } from "react";
+import { handleGetAllProductCategory } from "../../api/productCategoryApi";
+import { useEffect, useState } from "react";
 
 export default function HomeComponent() {
   const onChange = (currentSlide) => {
     console.log(currentSlide);
   };
-  // const [width, setWidth] = useState(width);
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    const getAllCategory = async () => {
+      const res = await handleGetAllProductCategory();
+      return res.success ? res.data : null;
+    };
+    getAllCategory()
+      .then((res) => setCategory(res))
+      .catch(() => {
+        setCategory(null);
+      });
+  }, []);
+  console.log(category);
   return (
     <>
       <Carousel
@@ -25,7 +37,7 @@ export default function HomeComponent() {
               className={styles.card__image}
               alt="example"
               src="https://ledmofan.com/wp-content/uploads/2023/03/hinh-nen-dep-cho-may-tinh-ledmofan-full-hd-2-1.jpg"
-              height={300}
+              height={500}
               width={244}
               key={123}
               onClick={(e) => {
@@ -35,18 +47,6 @@ export default function HomeComponent() {
           );
         })}
       </Carousel>
-      <div className={styles.container}>
-        <FilmStripContainer items={data} width={1300} category={"category 1"} />
-      </div>
-      <div className={styles.container}>
-        <FilmStripContainer items={data} width={1300} category={"category 2"} />
-      </div>
-      <div className={styles.container}>
-        <FilmStripContainer items={data} width={900} category={"category 3"} />
-      </div>
-      <div className={styles.container}>
-        <FilmStripContainer items={data} width={900} category={"category 4"} />
-      </div>
     </>
   );
 }

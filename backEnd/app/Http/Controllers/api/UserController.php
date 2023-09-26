@@ -52,7 +52,8 @@ class UserController extends Controller
      */
     public function me()
     {
-        return response()->json(['user' => auth()->user()], 200);
+        return $this->sendResponse('get info user success', ['user' => auth()->user()]);
+        // return response()->json(['user' => auth()->user()], 200);
     }
     /**
      * change password for user
@@ -74,9 +75,9 @@ class UserController extends Controller
         'password' => bcrypt($request->new_password)
         ]);
         return response()->json([
-        'success' => true,
-        'message' => 'change Password Success',
-        'user' => $user
+            'success' => true,
+            'message' => 'change Password Success',
+            'user' => $user
         ], 201);
     }
 
@@ -98,7 +99,7 @@ class UserController extends Controller
         if (! $token = auth()->attempt($validator->validated())) {
             return $this->sendError('login fail');
         }
-        return $this->respondWithToken($token);
+        return $this->respondWithToken($token, $token);
     }
 
     /**
@@ -153,15 +154,16 @@ class UserController extends Controller
      * Send token back to user
      *
      * @param string $token
+     * @param string $refreshToken
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken(string $token)
+    protected function respondWithToken(string $token, string $refreshToken)
     {
         return response()->json([
             'access_token' => $token,
+            'refresh_token' => $refreshToken,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user()
         ]);
     }
 }
