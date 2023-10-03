@@ -1,0 +1,50 @@
+version: '3.9'
+services:  
+  php:
+    build: 
+      context: ./backEnd
+      dockerfile: Dockerfile
+    container_name: backEnd-container
+    environment:
+      - APP_ENV=${APP_ENV}
+      - CONTAINER_ROLE=php
+    working_dir: /var/www
+    volumes:
+      - ./backEnd/:/var/www
+    ports:
+      - 8000:8000
+    depends_on:
+      - mysql
+
+  nginx:
+    # image: nginx:latest
+    build: 
+      context: ./frontEnd2
+      dockerfile: Dockerfile
+    container_name: frontEnd-container
+    # volumes:
+      # - ./frontEnd2/dist:/usr/share/nginx/html
+      # - ./frontEnd2/.nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8080:80
+    depends_on:
+      - php
+
+  mysql:
+    image: mysql:latest 
+    command: --default-authentication-plugin=caching_sha2_password --init-file /data/application/init.sql
+    restart: always
+    container_name: db-container
+    ports:
+      - 3309:3306
+      - 33060:33060
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./db/:/var/lib/mysql
+      - ./Docker/init.sql:/data/application/init.sql
+# volumes:
+#   db-data: ~

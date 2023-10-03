@@ -10,14 +10,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('Cake', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('price');
-            $table->longText('detail')->default("");
-            $table->string('picture')->default("");
+            $table->longText('detail');
+            $table->longText('detailShot');
+            $table->string('picture');
             $table->integer('quantity')->default(0);
             $table->bigInteger('categoryId')->unsigned()->nullable(false);
             $table->timestamps();
@@ -31,7 +32,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::table('cake', function (Blueprint $table) {
+        Schema::table('Cake', function (Blueprint $table) {
             $table->foreign('categoryId')
                   ->references('id')
                   ->on('CakeCategory');
@@ -47,7 +48,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
         $DBname = env("DB_DATABASE");
         DB::unprepared("DROP TRIGGER IF EXISTS " . $DBname . "updateTotalProduct;");

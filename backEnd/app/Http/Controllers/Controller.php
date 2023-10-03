@@ -64,14 +64,10 @@ class Controller extends BaseController
 
     protected function createUrl($mixer = []): string|null
     {
-        $host = isset($mixer['host']) ? $mixer['host'] : request()->getSchemeAndHttpHost();
-        $params = [];
-        foreach ($mixer as $key => $value) {
-            $params[] = $key . '=' . $value;
-        }
-        $param = implode("&", $params);
+        $host = (isset($mixer['host']) ? $mixer['host'] : request()->getSchemeAndHttpHost() ) . '/' . request()->path();
+        $param = http_build_query($mixer);
         if (strlen($param)) {
-            return $host . "?" . http_build_query($mixer);
+            return $host . "?" . $param;
         }
         return null;
     }

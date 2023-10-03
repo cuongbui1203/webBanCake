@@ -23,7 +23,7 @@ function LoginModal(props: Props) {
   const [loading, setLoading] = useState(false);
 
   const [form] = Form.useForm();
-
+  form.setFieldValue("remember", true);
   const onSubmit = (e: FormReturn) => {
     setLoading(true);
     const data = new FormData();
@@ -33,7 +33,6 @@ function LoginModal(props: Props) {
     // console.log(handleLoginAPI(data));
     setLoading(false);
     handleClose();
-    console.log(e);
   };
 
   return (

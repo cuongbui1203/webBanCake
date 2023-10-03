@@ -20,6 +20,7 @@ class Cake extends Model
     protected $fillable = [
         'name',
         'detail',
+        'detailShot',
         'price',
         'picture',
         'quantity',

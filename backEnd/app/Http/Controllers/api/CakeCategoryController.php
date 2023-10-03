@@ -21,7 +21,7 @@ class CakeCategoryController extends Controller
         if (isset($_GET['id'])) {
             try {
                 $res = CakeCategory::where('id', '=', $_GET['id'])->get();
-                return $this->sendResponse('lay category co id = ' . $_GET['id'] . ' thanh cong', $res);
+                return $this->sendResponse('lay category co id = ' . $_GET['id'] . ' thanh cong', result:$res);
             } catch (Exception $e) {
                 return $this->sendError('co loi khi lay du lieu', [$e]);
             }

@@ -4,8 +4,6 @@ use App\Http\Controllers\api\CakeCategoryController;
 use App\Http\Controllers\api\CakeController;
 use App\Http\Controllers\api\CartController;
 use App\Http\Controllers\api\UserController;
-use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
